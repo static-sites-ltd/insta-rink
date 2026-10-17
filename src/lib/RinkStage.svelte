@@ -202,16 +202,26 @@
       });
     }
 
-    const boards = buildBoardPath().poses.map((pose, index) => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const poses = buildBoardPath().poses;
+    let nextCue = 0;
+    const boards = poses.map((pose, index) => {
+      const intensity = index / (poses.length - 1);
       const board = pose.kind === 'straight' ? makeStraightBoard() : makeCurvedBoard();
       board.userData.startY = 8 + Math.min(index * 0.06, 1.2);
       board.position.set(pose.x, board.userData.startY, pose.z);
       board.rotation.y = pose.heading;
       board.userData.targetY = 0.76;
-      board.userData.delay = index * 0.42;
+      board.userData.delay = nextCue;
+      board.userData.duration = THREE.MathUtils.lerp(0.62, 0.34, intensity);
+      board.userData.intensity = intensity;
+      board.visible = false;
+      nextCue += THREE.MathUtils.lerp(0.38, 0.09, Math.pow(intensity, 0.8));
       scene.add(board);
       return board;
     });
+    const assemblyEnd = Math.max(...boards.map((board) => board.userData.delay + board.userData.duration));
+    const cycleDuration = assemblyEnd + 3.2;
 
     const resize = () => {
       const width = canvas.clientWidth;
@@ -221,15 +231,21 @@
       camera.updateProjectionMatrix();
     };
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let frame = 0;
     const start = performance.now();
     const animate = (now: number) => {
-      const elapsed = reducedMotion ? 20 : ((now - start) / 1000) % 20;
+      const elapsed = reducedMotion ? cycleDuration : ((now - start) / 1000) % cycleDuration;
       boards.forEach((board) => {
-        const progress = THREE.MathUtils.clamp((elapsed - board.userData.delay) / 0.72, 0, 1);
+        const active = reducedMotion || elapsed >= board.userData.delay;
+        board.visible = active;
+        if (!active) {
+          board.position.y = board.userData.startY;
+          return;
+        }
+        const progress = THREE.MathUtils.clamp((elapsed - board.userData.delay) / board.userData.duration, 0, 1);
         const eased = 1 - Math.pow(1 - progress, 4);
-        const settle = progress > 0.78 && progress < 1 ? Math.sin(progress * Math.PI * 8) * (1 - progress) * 0.16 : 0;
+        const settleStrength = THREE.MathUtils.lerp(0.12, 0.24, board.userData.intensity);
+        const settle = progress > 0.78 && progress < 1 ? Math.sin(progress * Math.PI * 8) * (1 - progress) * settleStrength : 0;
         board.position.y = THREE.MathUtils.lerp(board.userData.startY, board.userData.targetY, eased) + settle;
       });
       controls?.update();

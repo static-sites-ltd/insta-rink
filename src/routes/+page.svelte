@@ -24,13 +24,6 @@
     </div>
   </section>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-inner">
-      <span>Plug in</span><span>Lock up</span><span>Build out</span><span>Drop the puck</span>
-      <span>Plug in</span><span>Lock up</span><span>Build out</span><span>Drop the puck</span>
-    </div>
-  </div>
-
   <section class="system-section shell" id="system" aria-labelledby="system-title">
     <div class="section-heading">
       <h2 id="system-title">One simple system.</h2>

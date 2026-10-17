@@ -19,7 +19,7 @@
 </main>
 
 <style>
-  .assembly-view { position: relative; height: calc(100svh - 5.25rem); min-height: 38rem; background: #e9edef; }
+  .assembly-view { position: relative; height: calc(100svh - 5.25rem - var(--ticker-height)); min-height: 38rem; background: #e9edef; }
   .assembly-canvas { position: absolute; inset: 0; }
   .assembly-toolbar {
     position: absolute;
@@ -38,7 +38,7 @@
   .assembly-toolbar div { display: grid; gap: 0.25rem; justify-items: end; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
   .assembly-toolbar span { color: #687175; }
   @media (max-width: 42rem) {
-    .assembly-view { height: calc(100svh - 4.5rem); min-height: 32rem; }
+    .assembly-view { height: calc(100svh - 4.5rem - var(--ticker-height)); min-height: 32rem; }
     .assembly-toolbar div span { display: none; }
   }
 </style>
