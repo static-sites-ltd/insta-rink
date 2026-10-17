@@ -161,7 +161,7 @@ h1 em {
 }
 .stage-link:hover { color: var(--ink); background: var(--blue); }
 
-.ticker { overflow: hidden; border-bottom: 1px solid var(--line); color: white; background: var(--ink); white-space: nowrap; }
+.ticker { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); color: white; background: var(--ink); white-space: nowrap; }
 .ticker-inner {
   display: flex;
   width: max-content;
@@ -173,6 +173,19 @@ h1 em {
 }
 .ticker span { padding-right: 3rem; }
 .ticker span::after { margin-left: 3rem; color: var(--blue); content: '●'; }
+.ticker-flag {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: max(1rem, calc((100vw - 90rem) / 2));
+  display: flex;
+  padding-left: 1.5rem;
+  background: var(--ink);
+  box-shadow: -1.5rem 0 1.5rem var(--ink);
+  font-size: 1.25rem;
+  line-height: 1;
+  transform: translateY(-50%);
+}
 
 .system-section { padding: clamp(5rem, 10vw, 9rem) 0; }
 .section-heading {

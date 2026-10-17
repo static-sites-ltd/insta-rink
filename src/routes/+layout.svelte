@@ -11,6 +11,7 @@
     <span>Plug in</span><span>Lock up</span><span>Build out</span><span>Drop the puck</span>
     <span>Plug in</span><span>Lock up</span><span>Build out</span><span>Drop the puck</span>
   </div>
+  <div class="ticker-flag">🇨🇦</div>
 </div>
 
 <header class="site-header shell">
