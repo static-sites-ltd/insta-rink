@@ -83,9 +83,9 @@
     scene.add(centre);
 
     const boardMaterial = new THREE.MeshPhysicalMaterial({ color: 0xf8fbfc, roughness: 0.35 });
-    const capMaterial = new THREE.MeshStandardMaterial({ color: 0x080909, roughness: 0.55 });
-    const accentMaterial = new THREE.MeshStandardMaterial({ color: 0x21c8f6, roughness: 0.4 });
-    const connectorMaterial = new THREE.MeshStandardMaterial({ color: 0x111517, roughness: 0.5 });
+    const capMaterial = new THREE.MeshStandardMaterial({ color: 0x2456b8, roughness: 0.55 });
+    const accentMaterial = new THREE.MeshStandardMaterial({ color: 0xffce16, roughness: 0.4 });
+    const connectorMaterial = new THREE.MeshStandardMaterial({ color: 0xf8fbfc, roughness: 0.5 });
 
     function addConnectors(group: THREE.Group, left: THREE.Vector3, right: THREE.Vector3, leftHeading = 0, rightHeading = 0) {
       const male = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.34, 20), connectorMaterial);
@@ -111,14 +111,14 @@
       cap.castShadow = true;
       group.add(cap);
 
-      const kick = new THREE.Mesh(new THREE.BoxGeometry(BOARD_LENGTH, 0.16, 0.31), accentMaterial);
-      kick.position.y = -0.57;
+      const kick = new THREE.Mesh(new THREE.BoxGeometry(BOARD_LENGTH, 0.16, 0.03), accentMaterial);
+      kick.position.set(0, -0.57, -0.145);
       group.add(kick);
       addConnectors(group, new THREE.Vector3(-BOARD_LENGTH / 2, 0, 0), new THREE.Vector3(BOARD_LENGTH / 2, 0, 0));
       return group;
     }
 
-    function curvedStrip(height: number, depth: number) {
+    function curvedStrip(height: number, depth: number, radialOffset = 0) {
       const steps = 24;
       const vertices: number[] = [];
       const point = (angle: number, offset: number, y: number) => [
@@ -127,8 +127,8 @@
         (CORNER_RADIUS + offset) * Math.cos(angle) - CORNER_RADIUS
       ];
       const quad = (a: number[], b: number[], c: number[], d: number[]) => vertices.push(...a, ...b, ...d, ...b, ...c, ...d);
-      const inner = -depth / 2;
-      const outer = depth / 2;
+      const inner = radialOffset - depth / 2;
+      const outer = radialOffset + depth / 2;
 
       for (let index = 0; index < steps; index += 1) {
         const a = -CORNER_SWEEP / 2 + CORNER_SWEEP * index / steps;
@@ -171,7 +171,7 @@
       cap.castShadow = true;
       group.add(cap);
 
-      const kick = new THREE.Mesh(curvedStrip(0.16, 0.31), accentMaterial);
+      const kick = new THREE.Mesh(curvedStrip(0.16, 0.03, -0.145), accentMaterial);
       kick.position.y = -0.57;
       group.add(kick);
 

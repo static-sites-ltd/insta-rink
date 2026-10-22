@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { resolve } from '$app/paths';
+  import { asset } from '$app/paths';
   import RinkStage from '#lib/RinkStage.svelte';
 </script>
 
@@ -19,7 +19,6 @@
       </div>
       <div class="rink-stage">
         <RinkStage />
-        <a class="stage-link" href={resolve('/assembly')}>Open assembly study ↗</a>
       </div>
     </div>
   </section>
@@ -27,8 +26,16 @@
   <section class="system-section shell" id="system" aria-labelledby="system-title">
     <div class="section-heading">
       <h2 id="system-title">One simple system.</h2>
-      <p>Each board meets the next through a male-and-female connector. Straight sections build the length. Four gradual curves turn the corner. The same logic carries around the rink.</p>
+      <p>Interlocking connectors join each board to the next. Straight sections build the length. Four gradual curves turn the corner. The same logic carries around the rink.</p>
     </div>
+
+    <figure class="system-demo">
+      <video controls playsinline muted preload="none" poster={asset('assets/insta-rink-introduction.jpg')} aria-label="Insta-Rink product demonstration">
+        <source src={asset('assets/insta-rink-introduction.mp4')} type="video/mp4" />
+        <a href={asset('assets/insta-rink-introduction.mp4')}>Download the Insta-Rink demonstration</a>
+      </video>
+      <figcaption><span>See the system in action.</span><span>Product demonstration / 1:33</span></figcaption>
+    </figure>
 
     <div class="steps" id="build">
       <article class="step">
